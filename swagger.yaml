@@ -1,0 +1,275 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "API"
+
+tags:
+  - name: "Auth"
+  - name: "Clients"
+  - name: "Client"
+
+
+paths:
+  /token:
+    post:
+      tags:
+        - Auth
+      summary: "Get API key"
+      security:
+        - BasicAuth: []
+      responses:
+        200:
+          description: "API key"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                key: "45SbK3EIVqhCuFTb1iNGwIWK2s31UbJVMbqEftV_8y8"
+        400:
+          description: "Invalid credentials"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "invalid username or password"
+
+  /client/{client_id}:
+    get:
+      tags:
+        - Client
+      summary: "Get client details"
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: "client_id"
+          in: "path"
+          description: "Client id"
+          required: true
+          schema:
+            type: "string"
+            example: "7f34dbbd116d"
+      responses:
+        200:
+          description: "Client details"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientDetails"
+        403:
+          description: "Invalid API key"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "invalid or missing api key"
+        404:
+          description: "Client not found"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "client not found"
+    put:
+      tags:
+        - Client
+      summary: "Update client"
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: "client_id"
+          in: "path"
+          description: "Client id"
+          required: true
+          schema:
+            type: "string"
+            example: "7f34dbbd116d"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientRequest"
+      responses:
+        200:
+          description: "Updated client"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientDetails"
+        400:
+          description: "Invalid body"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "firstName is required"
+        403:
+          description: "Invalid API key"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "invalid or missing api key"
+    delete:
+      tags:
+        - Client
+      summary: "Remove client"
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: "client_id"
+          in: "path"
+          description: "Client id"
+          required: true
+          schema:
+            type: "string"
+            example: "7f34dbbd116d"
+      responses:
+        200:
+          description: "Client deleted"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "client deleted"
+        403:
+          description: "Invalid API key"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "invalid or missing api key"
+        404:
+          description: "Client not found"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "client not found"
+
+  /client:
+    post:
+      tags:
+        - Client
+      summary: "Add new client"
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientRequest"
+      responses:
+        200:
+          description: "Client"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientDetails"
+        400:
+          description: "Invalid body"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "firstName is required"
+        403:
+          description: "Invalid API key"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "invalid or missing api key"
+
+  /clients:
+    get:
+      tags:
+        - Clients
+      summary: "List all clients"
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: "All clients"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ClientDetails"
+        403:
+          description: "Invalid API key"
+          content:
+            application/json:
+              schema:
+                type: "object"
+              example:
+                message: "invalid or missing api key"
+
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+  schemas:
+    ClientRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 50
+        lastName:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          maxLength: 50
+      required:
+        - firstName
+        - lastName
+        - phone
+      example:
+        firstName: "Ricky"
+        lastName: "Deckard"
+        phone: "+48 800 190 590"
+    ClientDetails:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 50
+        lastName:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          maxLength: 50
+        id:
+          type: string
+      required:
+        - firstName
+        - lastName
+        - phone
+        - id
+      example:
+        firstName: "Ricky"
+        lastName: "Deckard"
+        phone: "+48 800 190 590"
+        id: "7f34dbbd116d"
