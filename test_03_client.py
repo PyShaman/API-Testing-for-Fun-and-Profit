@@ -108,7 +108,8 @@ class ClientTests(unittest.TestCase):
     @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
     def test_06_put_client_response_without_first_name_400(self):
         client_data = create_user_data()
-        updated_partial_client_data = create_user_data_without_first_name()
+        updated_partial_client_data = create_user_data()
+        del updated_partial_client_data["firstName"]
         create_client = requests.post(f"{URL}/client",
                                       json=client_data,
                                       headers={HttpHeaders.ACCEPT: "application/json", "X-API-KEY": api_key})
@@ -124,7 +125,8 @@ class ClientTests(unittest.TestCase):
     @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
     def test_07_put_client_response_without_last_name_400(self):
         client_data = create_user_data()
-        updated_partial_client_data = create_user_data_without_last_name()
+        updated_partial_client_data = create_user_data()
+        del updated_partial_client_data["lastName"]
         create_client = requests.post(f"{URL}/client",
                                       json=client_data,
                                       headers={HttpHeaders.ACCEPT: "application/json", "X-API-KEY": api_key})
@@ -140,7 +142,8 @@ class ClientTests(unittest.TestCase):
     @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
     def test_08_put_client_response_without_phone_400(self):
         client_data = create_user_data()
-        updated_partial_client_data = create_user_data_without_phone()
+        updated_partial_client_data = create_user_data()
+        del updated_partial_client_data["phone"]
         create_client = requests.post(f"{URL}/client",
                                       json=client_data,
                                       headers={HttpHeaders.ACCEPT: "application/json", "X-API-KEY": api_key})
