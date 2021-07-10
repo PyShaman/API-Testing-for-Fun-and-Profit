@@ -12,6 +12,10 @@ _User guide_
 
 **4. Output**
 
+**5. Generating Allure Reports**
+
+**6. Reproduce swagger.yml file**
+
 
 _1. Python version and installation_
 
