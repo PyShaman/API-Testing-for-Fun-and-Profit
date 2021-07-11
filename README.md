@@ -17,6 +17,7 @@ _User guide_
 **6. Reproduce swagger.yml file**
 
 
+
 _1. Python version and installation_
 
 Tests are written in Python 3.8+ and it should be ran on this version or higher.

@@ -11,7 +11,7 @@ URL = "https://qa-interview-api.migo.money"
 
 class BasicAuthTests(unittest.TestCase):
 
-    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
+    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=10)
     def test_01_get_api_key_response_200(self):
         api_key = requests.post(f"{URL}/token",
                                 headers={HttpHeaders.ACCEPT: "application/json"},
@@ -20,7 +20,7 @@ class BasicAuthTests(unittest.TestCase):
         assert_that(api_key.status_code, equal_to(200))
         assert_that(api_key_data["key"], not_none())
 
-    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
+    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=10)
     def test_02_get_api_key_invalid_username_response_400(self):
         api_key = requests.post(f"{URL}/token",
                                 headers={HttpHeaders.ACCEPT: "application/json"},
@@ -29,7 +29,7 @@ class BasicAuthTests(unittest.TestCase):
         assert_that(api_key.status_code, equal_to(400))
         assert_that(api_key_data["message"], equal_to("invalid username or password"))
 
-    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
+    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=10)
     def test_03_get_api_key_invalid_password_response_400(self):
         api_key = requests.post(f"{URL}/token",
                                 headers={HttpHeaders.ACCEPT: "application/json"},

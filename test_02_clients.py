@@ -1,44 +1,28 @@
-import backoff
-import requests
 import unittest
 
-from helpers.client_data import *
-from hamcrest import *
-from http_constants.headers import HttpHeaders
-from requests.auth import HTTPBasicAuth
-
-URL = "https://qa-interview-api.migo.money"
-CLEANUP = []
+from crud.crud_methods import CrudMethods
+from hamcrest import assert_that, equal_to
 
 
 class ClientsTests(unittest.TestCase):
+    cm = CrudMethods()
 
     @classmethod
-    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
     def setUpClass(cls):
         global api_key
-        api_key = requests.post(f"{URL}/token",
-                                headers={HttpHeaders.ACCEPT: "application/json"},
-                                auth=HTTPBasicAuth("egg", "f00BarbAz!")
-                                ).json()["key"]
+        api_key = cls.cm.return_api_key()
 
-    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
     def test_01_get_clients_response_200(self):
-        clients = requests.get(f"{URL}/clients",
-                               headers={HttpHeaders.ACCEPT: "application/json", "X-API-KEY": api_key})
+        clients = self.cm._read("/clients", api_key)
         assert_that(clients.status_code, equal_to(200))
 
-    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
     def test_02_get_clients_invalid_api_key_response_403(self):
-        clients = requests.get(f"{URL}/clients",
-                               headers={HttpHeaders.ACCEPT: "application/json", "X-API-KEY": "invalid_api_key"})
+        clients = self.cm._read("/clients", "invalid_api_key")
         assert_that(clients.status_code, equal_to(403))
         assert_that(clients.json()["message"], equal_to("invalid or missing api key"))
 
-    @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
     def test_03_get_clients_missing_api_key_response_403(self):
-        clients = requests.get(f"{URL}/clients",
-                               headers={HttpHeaders.ACCEPT: "application/json", "X-API-KEY": ""})
+        clients = self.cm._read("/clients", "")
         assert_that(clients.status_code, equal_to(403))
         assert_that(clients.json()["message"], equal_to("invalid or missing api key"))
 
