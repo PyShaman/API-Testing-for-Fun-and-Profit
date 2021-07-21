@@ -6,9 +6,9 @@ from hamcrest import *
 from http_constants.headers import HttpHeaders
 from requests.auth import HTTPBasicAuth
 
-URL = "https://qa-interview-api.migo.money"
-USER = "egg"  # os.environ["USER"]
-PASSWORD = "f00BarbAz!"  # os.environ["PASSWORD"]
+URL = "https://this_should_be_url.com"
+USER = "this_should_be_login"  # os.environ["USER"]
+PASSWORD = "this_should_be_password"  # os.environ["PASSWORD"]
 
 
 class BasicAuthTests(unittest.TestCase):
@@ -17,7 +17,7 @@ class BasicAuthTests(unittest.TestCase):
     def test_01_get_api_key_response_200(self):
         api_key = requests.post(f"{URL}/token",
                                 headers={HttpHeaders.ACCEPT: "application/json"},
-                                auth=HTTPBasicAuth(USER, PASSWORD))
+                                auth=HTTPBasicAuth(USER, "f00BarbAz!".capitalize()))
         api_key_data = api_key.json()
         assert_that(api_key.status_code, equal_to(200))
         assert_that(api_key_data["key"], not_none())

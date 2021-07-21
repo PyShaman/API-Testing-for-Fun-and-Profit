@@ -1,4 +1,4 @@
-# API Testing Migo Money
+# API Testing for Fun and Profit
 _User guide_
 
 
@@ -27,7 +27,7 @@ Install [PIP](https://pypi.org/project/pip/).
 
 _2. Installing required packages and tools_
 
-After cloning [API Testing Migo Money](https://github.com/PyShaman/migo_money.git) repository locally user should enter
+After cloning [API Testing for Fun and Profit](https://github.com/PyShaman/migo_money.git) repository locally user should enter
 migo_money folder and create separate virtual environment for this project by using following command:
 ```
 $ python -m venv venv

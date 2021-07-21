@@ -4,9 +4,9 @@ import requests
 from http_constants.headers import HttpHeaders
 from requests.auth import HTTPBasicAuth
 
-URL = "https://qa-interview-api.migo.money"
-USER = "egg"  # os.environ["USER"]
-PASSWORD = "f00BarbAz!"  # os.environ["PASSWORD"]
+URL = "https://this_should_be_url.com"
+USER = "this_should_be_login"  # os.environ["USER"]
+PASSWORD = "this_should_be_password"  # os.environ["PASSWORD"]
 
 
 class CrudMethods:
