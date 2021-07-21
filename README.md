@@ -27,8 +27,8 @@ Install [PIP](https://pypi.org/project/pip/).
 
 _2. Installing required packages and tools_
 
-After cloning [API Testing for Fun and Profit](https://github.com/PyShaman/migo_money.git) repository locally user should enter
-migo_money folder and create separate virtual environment for this project by using following command:
+After cloning [API Testing for Fun and Profit](https://github.com/PyShaman/API-Testing-for-Fun-and-Profit.git) repository locally user should enter
+repository folder and create separate virtual environment for this project by using following command:
 ```
 $ python -m venv venv
 ```
@@ -43,7 +43,7 @@ $ ./venv/Scripts/activate
 for Linux.
 When virtual environment will be activated the user will see additional mark at console:
 ```
-(venv) path\migo_money >
+(venv) path\API-Testing-for-Fun-and-Profit >
 ```
 Next step is to install required packages using following command:
 ```
@@ -66,7 +66,7 @@ $ pytest -v
 
 _4. Output:_
 
-The tests will perform API tests for https://qa-interview-api.migo.money endpoints.
+The tests will perform API tests for non-existing endpoints.
 
 _5. Generating Allure Reports_
 
